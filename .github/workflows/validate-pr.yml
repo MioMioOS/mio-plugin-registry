@@ -1,0 +1,111 @@
+name: Validate Plugin PR
+
+on:
+  pull_request:
+    paths:
+      - 'plugins/**'
+
+permissions:
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Find and validate plugin directories
+        id: validate
+        run: |
+          python3 << 'PYEOF'
+          import json
+          import os
+          import subprocess
+          import sys
+
+          REQUIRED_FIELDS = ["type", "id", "name", "version", "author"]
+          VALID_TYPES = ["theme", "buddy", "sound"]
+
+          # Find all plugin.json files under plugins/
+          results = []
+          errors = []
+          found_any = False
+
+          for root, dirs, files in os.walk("plugins"):
+              if "plugin.json" in files:
+                  found_any = True
+                  path = os.path.join(root, "plugin.json")
+                  plugin_id = os.path.basename(root)
+                  results.append(f"Found plugin: **{plugin_id}** (`{path}`)")
+
+                  # Validate JSON syntax
+                  try:
+                      with open(path) as f:
+                          data = json.load(f)
+                  except json.JSONDecodeError as e:
+                      errors.append(f"**{plugin_id}**: Invalid JSON syntax — {e}")
+                      continue
+
+                  # Check required fields
+                  missing = [field for field in REQUIRED_FIELDS if field not in data]
+                  if missing:
+                      errors.append(f"**{plugin_id}**: Missing required fields: {', '.join(missing)}")
+
+                  # Validate type value
+                  if "type" in data and data["type"] not in VALID_TYPES:
+                      errors.append(f"**{plugin_id}**: Invalid type `{data['type']}` — must be one of {VALID_TYPES}")
+
+          # Build summary
+          summary_lines = ["## Plugin Validation Results\n"]
+
+          if not found_any:
+              summary_lines.append("No plugin.json files found in this PR.\n")
+          else:
+              summary_lines.append("### Plugins found\n")
+              for r in results:
+                  summary_lines.append(f"- {r}")
+              summary_lines.append("")
+
+          if errors:
+              summary_lines.append("### Errors\n")
+              for e in errors:
+                  summary_lines.append(f"- {e}")
+              summary_lines.append("")
+
+          if found_any and not errors:
+              summary_lines.append("All plugins passed validation.")
+
+          summary = "\n".join(summary_lines)
+
+          # Write to file for the comment step
+          with open("validation-result.md", "w") as f:
+              f.write(summary)
+
+          if errors:
+              print("Validation failed:")
+              for e in errors:
+                  print(f"  {e}")
+              sys.exit(1)
+          else:
+              print("Validation passed.")
+          PYEOF
+
+      - name: Comment on PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body;
+            try {
+              body = fs.readFileSync('validation-result.md', 'utf8');
+            } catch {
+              body = '## Plugin Validation Results\n\nValidation script did not produce output.';
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });

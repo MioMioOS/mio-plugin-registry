@@ -1,0 +1,80 @@
+name: Build Registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'plugins/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build registry.json
+        run: |
+          python3 << 'PYEOF'
+          import json
+          import os
+          from datetime import datetime, timezone
+
+          REPO = os.environ.get("GITHUB_REPOSITORY", "MioMioOS/mio-plugin-registry")
+          BRANCH = "main"
+          RAW_BASE = f"https://raw.githubusercontent.com/{REPO}/{BRANCH}"
+
+          plugins = []
+
+          for type_dir in sorted(os.listdir("plugins")):
+              type_path = os.path.join("plugins", type_dir)
+              if not os.path.isdir(type_path):
+                  continue
+              for plugin_id in sorted(os.listdir(type_path)):
+                  plugin_path = os.path.join(type_path, plugin_id)
+                  manifest = os.path.join(plugin_path, "plugin.json")
+                  if not os.path.isfile(manifest):
+                      continue
+
+                  try:
+                      with open(manifest) as f:
+                          data = json.load(f)
+                  except (json.JSONDecodeError, IOError):
+                      print(f"Skipping {manifest}: invalid JSON")
+                      continue
+
+                  # Add download and preview URLs
+                  data["downloadUrl"] = f"{RAW_BASE}/{plugin_path}/plugin.json"
+                  if "preview" in data:
+                      data["previewUrl"] = f"{RAW_BASE}/{plugin_path}/{data['preview']}"
+
+                  plugins.append(data)
+
+          registry = {
+              "version": 1,
+              "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "plugins": plugins,
+          }
+
+          with open("registry.json", "w") as f:
+              json.dump(registry, f, indent=2)
+              f.write("\n")
+
+          print(f"Built registry with {len(plugins)} plugin(s).")
+          PYEOF
+
+      - name: Commit and push registry.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add registry.json
+          if git diff --cached --quiet; then
+            echo "No changes to registry.json"
+          else
+            git commit -m "chore: rebuild registry.json"
+            git push
+          fi
