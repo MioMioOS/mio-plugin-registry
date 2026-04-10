@@ -1,5 +1,29 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-10T00:00:00Z",
-  "plugins": []
+  "updatedAt": "2026-04-10T05:43:49Z",
+  "plugins": [
+    {
+      "type": "theme",
+      "id": "ocean-night",
+      "name": "Ocean Night",
+      "version": "1.0.0",
+      "author": {
+        "name": "MioIsland Team"
+      },
+      "price": 0,
+      "palette": {
+        "bg": "#0A1628",
+        "fg": "#E0E8F0",
+        "secondaryFg": "#6B7D94"
+      },
+      "preview": "preview.png",
+      "description": "Deep ocean dark theme",
+      "tags": [
+        "dark",
+        "blue"
+      ],
+      "downloadUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/ocean-night/plugin.json",
+      "previewUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/ocean-night/preview.png"
+    }
+  ]
 }
