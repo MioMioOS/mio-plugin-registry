@@ -24,6 +24,63 @@
       ],
       "downloadUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/ocean-night/plugin.json",
       "previewUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/ocean-night/preview.png"
+    },
+    {
+      "type": "theme",
+      "id": "tokyo-night",
+      "name": "Tokyo Night",
+      "version": "1.0.0",
+      "author": {
+        "name": "MioIsland Team",
+        "github": "MioMioOS"
+      },
+      "price": 0,
+      "description": "Deep blue-purple theme inspired by the Tokyo Night color scheme",
+      "tags": [
+        "dark",
+        "blue",
+        "coding"
+      ],
+      "downloadUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/tokyo-night/plugin.json",
+      "previewUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/tokyo-night/preview.png"
+    },
+    {
+      "type": "theme",
+      "id": "rose-pine",
+      "name": "Rose Pine",
+      "version": "1.0.0",
+      "author": {
+        "name": "MioIsland Team",
+        "github": "MioMioOS"
+      },
+      "price": 0,
+      "description": "Warm elegant dark theme with soft lavender tones",
+      "tags": [
+        "dark",
+        "warm",
+        "elegant"
+      ],
+      "downloadUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/rose-pine/plugin.json",
+      "previewUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/rose-pine/preview.png"
+    },
+    {
+      "type": "theme",
+      "id": "dracula",
+      "name": "Dracula",
+      "version": "1.0.0",
+      "author": {
+        "name": "MioIsland Team",
+        "github": "MioMioOS"
+      },
+      "price": 0,
+      "description": "The classic Dracula color scheme adapted for the notch",
+      "tags": [
+        "dark",
+        "classic",
+        "popular"
+      ],
+      "downloadUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/dracula/plugin.json",
+      "previewUrl": "https://raw.githubusercontent.com/MioMioOS/mio-plugin-registry/main/plugins/themes/dracula/preview.png"
     }
   ]
 }

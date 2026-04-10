@@ -1,0 +1,19 @@
+{
+  "type": "theme",
+  "id": "rose-pine",
+  "name": "Rose Pine",
+  "version": "1.0.0",
+  "author": {
+    "name": "MioIsland Team",
+    "github": "MioMioOS"
+  },
+  "price": 0,
+  "palette": {
+    "bg": "#191724",
+    "fg": "#E0DEF4",
+    "secondaryFg": "#6E6A86"
+  },
+  "description": "Warm elegant dark theme with soft lavender tones",
+  "tags": ["dark", "warm", "elegant"],
+  "preview": "preview.png"
+}

@@ -1,0 +1,19 @@
+{
+  "type": "theme",
+  "id": "tokyo-night",
+  "name": "Tokyo Night",
+  "version": "1.0.0",
+  "author": {
+    "name": "MioIsland Team",
+    "github": "MioMioOS"
+  },
+  "price": 0,
+  "palette": {
+    "bg": "#1A1B26",
+    "fg": "#C0CAF5",
+    "secondaryFg": "#565F89"
+  },
+  "description": "Deep blue-purple theme inspired by the Tokyo Night color scheme",
+  "tags": ["dark", "blue", "coding"],
+  "preview": "preview.png"
+}

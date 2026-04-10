@@ -1,0 +1,19 @@
+{
+  "type": "theme",
+  "id": "dracula",
+  "name": "Dracula",
+  "version": "1.0.0",
+  "author": {
+    "name": "MioIsland Team",
+    "github": "MioMioOS"
+  },
+  "price": 0,
+  "palette": {
+    "bg": "#282A36",
+    "fg": "#F8F8F2",
+    "secondaryFg": "#6272A4"
+  },
+  "description": "The classic Dracula color scheme adapted for the notch",
+  "tags": ["dark", "classic", "popular"],
+  "preview": "preview.png"
+}
